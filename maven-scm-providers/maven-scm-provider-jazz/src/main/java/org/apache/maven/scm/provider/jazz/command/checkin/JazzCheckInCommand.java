@@ -130,7 +130,7 @@ public class JazzCheckInCommand
         JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repository;
         if ( jazzRepo.isPushChangesAndHaveFlowTargets() && StringUtils.isNotEmpty( jazzRepo.getWorkItem() ) )
         {
-            List<Integer> changeSetAliases = jazzRepo.getChangeSetAliases();
+            List<Integer> changeSetAliases = jazzRepo.getOutgoingChangeSetAliases();
             if ( changeSetAliases != null && !changeSetAliases.isEmpty() )
             {
                 for ( Integer changeSetAlias : changeSetAliases )
@@ -142,7 +142,7 @@ public class JazzCheckInCommand
                     errConsumer = new ErrorConsumer( getLogger() );
         
                     status = changesetAssociateCmd.execute( outputConsumer, errConsumer );
-                    if ( status != 0 || errConsumer.hasBeenFed() )
+                    if ( status != 0 )
                     {
                         return new CheckInScmResult( changesetAssociateCmd.getCommandString(),
                                                      "Error code for Jazz SCM changeset associate command - " + status,
